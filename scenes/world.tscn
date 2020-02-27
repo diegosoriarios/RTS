@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=1]
 [ext_resource path="res://assets/Structure/medievalStructure_01.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/UI/red_panel.png" type="Texture" id=6]
 [ext_resource path="res://scripts/World.gd" type="Script" id=7]
 [ext_resource path="res://scenes/unit.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 672, 0, 672, -96, 1792, -640, 1792, 1152, -896, -640, 608, -96, -896, -544, -896, 1152, 608, 0 )
@@ -81,6 +82,9 @@ __meta__ = {
 [node name="unit2" parent="." instance=ExtResource( 8 )]
 position = Vector2( 192, -96 )
 speed = 200
+
+[node name="enemy" parent="." instance=ExtResource( 9 )]
+position = Vector2( -510, 198 )
 
 [node name="nav" type="Navigation2D" parent="."]
 
