@@ -23,5 +23,8 @@ shape = SubResource( 1 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PoolVector2Array( 12.4938, 34.2584, 251.425, 183.741, 275.82, 166.77, 295.973, 151.567, 315.065, 133.183, 342.642, 110.555, 347.945, 107.02, 347.238, 75.907, 344.551, 38.7839, 342.359, 8.09544, 342.006, -20.8959, 341.016, -64.4537, 339.248, -93.0915, 310.964, -111.83, 271.153, -140.185, 229.081, -163.519, 13.413, -25.6335 )
+
+[node name="ShootTimer" type="Timer" parent="."]
 [connection signal="body_entered" from="Visibility" to="." method="_on_Visibility_body_entered"]
 [connection signal="body_exited" from="Visibility" to="." method="_on_Visibility_body_exited"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
