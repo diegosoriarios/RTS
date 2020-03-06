@@ -11,6 +11,10 @@ var move_p = false
 var to_move = Vector2()
 var path = PoolVector2Array()
 var initialposition = Vector2()
+onready var raycast = $RayCast2D
+
+var gridContainer
+var controlContainer
 
 signal was_selected
 signal was_deselected
@@ -27,6 +31,8 @@ func set_selected(value):
 			emit_signal("was_deselected", self)
 
 func _ready():
+	gridContainer = get_parent().find_node("UI").find_node("Base").find_node("Control").find_node("GridContainer")
+	controlContainer = get_parent().find_node("UI").find_node("Base").find_node("Control")
 	connect("was_selected", get_parent(), "select_unit")
 	connect("was_deselected", get_parent(), "deselect_unit")
 	box.visible = false

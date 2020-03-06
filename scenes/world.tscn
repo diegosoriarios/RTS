@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=1]
 [ext_resource path="res://assets/Structure/medievalStructure_01.png" type="Texture" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://scripts/World.gd" type="Script" id=7]
 [ext_resource path="res://scenes/unit.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/UI/grey_panel.png" type="Texture" id=10]
+[ext_resource path="res://assets/UI/yellow_panel.png" type="Texture" id=11]
+[ext_resource path="res://scenes/item.tscn" type="PackedScene" id=12]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 672, 0, 672, -96, 1792, -640, 1792, 1152, -896, -640, 608, -96, -896, -544, -896, 1152, 608, 0 )
@@ -76,6 +79,73 @@ color = Color( 0, 0.117647, 0.509804, 0.509804 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Control" type="Control" parent="UI/Base"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -456.0
+margin_top = -80.0
+margin_right = -11.0
+margin_bottom = -8.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="UI/Base/Control"]
+position = Vector2( 1, 1 )
+scale = Vector2( 4.40826, 0.681802 )
+texture = ExtResource( 11 )
+centered = false
+
+[node name="Sprite2" type="Sprite" parent="UI/Base/Control"]
+position = Vector2( 398.101, 33.9411 )
+scale = Vector2( 0.632305, 0.632305 )
+texture = ExtResource( 10 )
+
+[node name="GridContainer" type="GridContainer" parent="UI/Base/Control"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 19.0
+margin_top = -24.0
+margin_right = -126.0
+margin_bottom = 25.0
+columns = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="item" parent="UI/Base/Control/GridContainer" instance=ExtResource( 12 )]
+margin_right = 49.0
+margin_bottom = 49.0
+
+[node name="item2" parent="UI/Base/Control/GridContainer" instance=ExtResource( 12 )]
+margin_left = 53.0
+margin_right = 102.0
+margin_bottom = 49.0
+
+[node name="item3" parent="UI/Base/Control/GridContainer" instance=ExtResource( 12 )]
+margin_left = 106.0
+margin_right = 155.0
+margin_bottom = 49.0
+
+[node name="item4" parent="UI/Base/Control/GridContainer" instance=ExtResource( 12 )]
+margin_left = 159.0
+margin_right = 208.0
+margin_bottom = 49.0
+
+[node name="item5" parent="UI/Base/Control/GridContainer" instance=ExtResource( 12 )]
+margin_left = 212.0
+margin_right = 261.0
+margin_bottom = 49.0
+
+[node name="item6" parent="UI/Base/Control/GridContainer" instance=ExtResource( 12 )]
+margin_left = 265.0
+margin_right = 314.0
+margin_bottom = 49.0
 
 [node name="unit" parent="." instance=ExtResource( 8 )]
 
