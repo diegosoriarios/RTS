@@ -11,7 +11,7 @@ var move_p = false
 var to_move = Vector2()
 var path = PoolVector2Array()
 var initialposition = Vector2()
-onready var raycast = $RayCast2D
+#onready var raycast = $RayCast2D
 
 var gridContainer
 var controlContainer
@@ -43,7 +43,7 @@ func _ready():
 
 func _process(delta):
 	if move_p:
-		path = get_viewport().get_node("world/nav").get_simple_path(position, to_move+Vector2(randi()%100, randi()%100))
+		path = get_viewport().get_node("Main/nav").get_simple_path(position, to_move+Vector2(randi()%100, randi()%100))
 		initialposition = position
 		move_p = false
 	if path.size() > 0:

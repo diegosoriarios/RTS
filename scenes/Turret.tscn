@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/Turret.gd" type="Script" id=1]
+[ext_resource path="res://scenes/bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://assets/light.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 21.6287, 22.0748 )
+
+[node name="Turret" type="KinematicBody2D"]
+position = Vector2( 55.2136, 37.6254 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+detect_radius = 250
+fire_rate = 0.2
+Bullet = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Visibility" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Visibility"]
+position = Vector2( 3.05176e-05, -1.41421 )
+polygon = PoolVector2Array( 20, 10, 190, 90, 210, 68, 227, 48, 240, 23, 245.647, -0.0237923, 240, -23, 227, -48, 210, -68, 190, -90, 20, -5 )
+
+[node name="Light2D" type="Light2D" parent="Visibility"]
+position = Vector2( 104.475, 2.56711 )
+rotation = 1.5708
+scale = Vector2( -0.234484, -0.225411 )
+texture = ExtResource( 4 )
+color = Color( 0.113725, 0.878431, 0, 1 )
+shadow_enabled = true
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+[connection signal="body_entered" from="Visibility" to="." method="_on_Visibility_body_entered"]
+[connection signal="body_exited" from="Visibility" to="." method="_on_Visibility_body_exited"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
