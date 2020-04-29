@@ -1,7 +1,5 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/UI/blue_button07.png" type="Texture" id=1]
-[ext_resource path="res://scenes/item.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/UI/grey_panel.png" type="Texture" id=3]
 [ext_resource path="res://assets/UI/yellow_panel.png" type="Texture" id=4]
 [ext_resource path="res://assets/UI/red_panel.png" type="Texture" id=5]
@@ -42,7 +40,6 @@ __meta__ = {
 }
 
 [node name="Control" type="Control" parent="Base"]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -66,7 +63,7 @@ position = Vector2( 398.101, 33.9411 )
 scale = Vector2( 0.632305, 0.632305 )
 texture = ExtResource( 3 )
 
-[node name="GridContainer" type="GridContainer" parent="Base/Control"]
+[node name="GridContainer" type="HBoxContainer" parent="Base/Control"]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -74,60 +71,6 @@ margin_left = 19.0
 margin_top = -24.0
 margin_right = -126.0
 margin_bottom = 25.0
-columns = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item" type="TextureButton" parent="Base/Control/GridContainer" instance=ExtResource( 2 )]
-margin_right = 49.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item2" type="TextureButton" parent="Base/Control/GridContainer" instance=ExtResource( 2 )]
-margin_left = 53.0
-margin_right = 102.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item3" type="TextureButton" parent="Base/Control/GridContainer" instance=ExtResource( 2 )]
-margin_left = 106.0
-margin_right = 155.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item4" type="TextureButton" parent="Base/Control/GridContainer" instance=ExtResource( 2 )]
-margin_left = 159.0
-margin_right = 208.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item5" type="TextureButton" parent="Base/Control/GridContainer" instance=ExtResource( 2 )]
-margin_left = 212.0
-margin_right = 261.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item6" type="TextureButton" parent="Base/Control/GridContainer" instance=ExtResource( 2 )]
-margin_left = 265.0
-margin_right = 314.0
-margin_bottom = 49.0
-texture_normal = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

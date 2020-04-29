@@ -53,11 +53,8 @@ func start_watch():
 		rotationValue += 1
 	else:
 		rotationValue -= 1
-	
-	print(self.rotation_degrees)
 
 func _on_Visibility_body_entered(body):
-	print(body.name)
 	if body.name != self.name:
 		player = body
 

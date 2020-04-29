@@ -5,12 +5,18 @@ export (float) var fire_rate
 export (PackedScene) var Bullet
 var vis_color = Color(.867, .91, .247, 0.1)
 var laser_color = Color(1.0, .329, .298)
+onready var Item = preload("res://scenes/item.tscn")
+const DB = preload("res://scripts/Inventory/ItemDB.gd")
+onready var db = DB.new()
 
 var target
 var hit_pos
 var can_shoot = true
 var frame = 0.0
 var direction = 1
+var alerted = false
+var alerted_time = 0
+var look
 
 func _ready():
 	$Sprite.self_modulate = Color(0.2, 0, 0)
@@ -26,12 +32,22 @@ func _physics_process(delta):
 		direction *= -1
 		frame = 0
 	
-	$Visibility.rotate(.03 * direction)
+	if can_shoot:
+		$Visibility.rotate(.03 * direction)
 	
 	#var bodies = $Visibility.get_overlapping_bodies()
 	
 	#for body in bodies:
 	#	print(body.name)
+	
+	if alerted:
+		alerted_time += delta * 10
+		if alerted_time > 7:
+			alerted_time = 0
+			alerted = false
+		look_at(look)
+		$Sprite.self_modulate.r = 0
+		$Sprite.self_modulate.g = 1
 	
 	update()
 	if target:
@@ -49,9 +65,7 @@ func aim():
 		var result = space_state.intersect_ray(position,
 				pos, [self], collision_mask)
 		if result:
-			print('aqui')
 			hit_pos.append(result.position)
-			print("Colider" + result.collider.name)
 			#if result.collider.name == "unit":
 			if result.collider.is_in_group("units"):
 				$Sprite.self_modulate.r = 1.0
@@ -89,3 +103,11 @@ func _on_Visibility_body_exited(body):
 
 func _on_ShootTimer_timeout():
 	can_shoot = true
+
+func hit():
+	
+	queue_free()
+
+func alert(pos):
+	alerted = true
+	look = pos

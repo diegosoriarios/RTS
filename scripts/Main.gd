@@ -5,6 +5,10 @@ var selected_units = [] # objects
 var units = []
 
 onready var button = preload("res://scenes/button.tscn")
+onready var Bullet = preload("res://scenes/PlayerBullet.tscn")
+onready var Item = preload("res://scenes/item.tscn")
+const DB = preload("res://scripts/Inventory/ItemDB.gd")
+onready var db = DB.new()
 var buttons = [] # strings 
 var view = load("res://assets/Cursor/eye.png")
 var gun = load("res://assets/Cursor/focus.png")
@@ -36,7 +40,27 @@ func set_camera():
 		selected_units[0].get_node("Camera2D").make_current()
 		last_camera = selected_units[0].get_node("Camera2D")
 
+func inventory_grid():
+	var unit = selected_units[0]
+	var grid = $UI.find_node("Control")
+	grid.visible = true
+	for item_name in unit.items:
+		var item = Item.instance()
+		var image = db.get_item(item_name).icon
+		var img = Image.new()
+		var texture = ImageTexture.new()
+		img.load(image)
+		texture.create_from_image(img)
+		item.find_node("Sprite").texture = texture
+		grid.find_node("GridContainer").add_child(item)
+		print(item_name)
+
+func inventory_group():
+	pass
+
 func create_buttons():
+	if selected_units.size() == 1: inventory_grid()
+	elif selected_units.size() > 1: inventory_group()
 	delete_buttons()
 	set_camera()
 	for unit in selected_units:
@@ -94,11 +118,15 @@ func _process(delta):
 	
 	if selected_units.size() == 0:
 		$Camera2D.current = true
+		$UI.find_node("Control").visible = false
 	elif selected_units.size() == 1:
-		$Camera2D.position = selected_units[0].find_node("Camera2D").global_position
+		var unit = selected_units[0]
+		$Camera2D.position = unit.find_node("Camera2D").global_position
+		
 	
 	if Input.is_action_just_pressed("inventory"):
 		$Inventory.visible = !$Inventory.visible
+		$Inventory.position = last_camera.position
 		if $Inventory.visible:
 			$Camera2D.current = true
 			$UI/Base.visible = false
@@ -111,7 +139,14 @@ func _process(delta):
 		elif Input.is_action_just_pressed("action"): current_action = action
 		elif Input.is_action_just_pressed("knife"): current_action = knife
 		
-		elif Input.is_mouse_button_pressed(BUTTON_RIGHT): current_action = cursor
+		if Input.is_mouse_button_pressed(BUTTON_RIGHT): current_action = cursor
+		elif Input.is_mouse_button_pressed(BUTTON_LEFT):
+			if current_action == gun:
+				for u in selected_units:
+					if u.can_shoot:
+						var bullet = Bullet.instance()
+						bullet.position = get_global_mouse_position()
+						add_child(bullet)
+						u.can_shoot = false
 		
 		Input.set_custom_mouse_cursor(current_action)
-	

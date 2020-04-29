@@ -7,11 +7,21 @@ onready var box = $box
 onready var bar = $bar
 onready var label = $label_name
 
+export (int) var detect_radius
+export (float) var fire_rate
+var vis_color = Color(.867, .91, .247, 0.1)
+var laser_color = Color(1.0, .329, .298)
+
 var move_p = false
 var to_move = Vector2()
 var path = PoolVector2Array()
 var initialposition = Vector2()
 #onready var raycast = $RayCast2D
+var target
+var hit_pos
+var can_shoot = false
+
+var items = ["potato"]
 
 var gridContainer
 var controlContainer
@@ -48,6 +58,14 @@ func _process(delta):
 		move_p = false
 	if path.size() > 0:
 		move_towards(initialposition, path[0], delta)
+	
+	$Visibility.look_at(get_global_mouse_position())
+	
+	update()
+	if target:
+		aim()
+	else:
+		rotation = 0
 
 func move_towards(pos, point, delta):
 	var v = (point - pos).normalized()
@@ -66,3 +84,42 @@ func _on_unit_input_event(viewport, event, shape_idx):
 		if event.is_pressed():
 			if event.button_index == BUTTON_LEFT:
 				set_selected(not selected)
+
+func _draw():
+	#draw_circle(Vector2(), detect_radius, vis_color)
+	if target:
+		for hit in hit_pos:
+			draw_circle((hit - position).rotated(-rotation), 5, laser_color)
+			draw_line(Vector2(), (hit - position).rotated(-rotation), laser_color)
+
+func aim():
+	hit_pos = []
+	var space_state = get_world_2d().direct_space_state	
+	var target_extents = target.get_node('CollisionShape2D').shape.extents - Vector2(5, 5)
+	var nw = target.position - target_extents
+	var se = target.position + target_extents
+	var ne = target.position + Vector2(target_extents.x, -target_extents.y)
+	var sw = target.position + Vector2(-target_extents.x, target_extents.y)
+	for pos in [target.position, nw, ne, se, sw]:
+		var result = space_state.intersect_ray(position,
+				pos, [self], collision_mask)
+		if result:
+			hit_pos.append(result.position)
+			#if result.collider.name == "unit":
+			if result.collider.is_in_group("enemy"):
+				rotation = (target.position - position).angle()
+				can_shoot = true
+				break
+
+
+func _on_Visibility_body_entered(body):
+	if body.is_in_group("enemy"):
+		print(body.name)
+		if target:
+			return
+		target = body
+
+
+func _on_Visibility_body_exited(body):
+	if body == target:
+		target = null

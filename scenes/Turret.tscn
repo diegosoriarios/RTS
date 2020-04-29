@@ -8,7 +8,9 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 21.6287, 22.0748 )
 
-[node name="Turret" type="KinematicBody2D"]
+[node name="Turret" type="KinematicBody2D" groups=[
+"enemy",
+]]
 position = Vector2( 55.2136, 37.6254 )
 script = ExtResource( 1 )
 __meta__ = {

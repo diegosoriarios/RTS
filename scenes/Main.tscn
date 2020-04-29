@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://tiles.tres" type="TileSet" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scenes/Inventory/Inventory.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scripts/path.gd" type="Script" id=9]
 [ext_resource path="res://scenes/Guard.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/Tile/lab/5.jpg" type="Texture" id=11]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 cull_mode = 1
@@ -24,6 +25,18 @@ outlines = [ PoolVector2Array( 69.2312, 68.606, 63.6001, 384.2, 193.6, 386.2, 18
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 1026.6, 131, 0, 0, 0, 0, 899.602, 127, 0, 0, 0, 0, 755.602, 127, 0, 0, 0, 0, 600.602, 140, 0, 0, 0, 0, 469.602, 149, 8.00002, -6.00001, -8.00002, 6.00001, 393, 174, 0, 0, 0, 0, 374.601, 260, -23.5, -0.500001, 23.5, 0.500001, 398.5, 296.501, 0, 0, 0, 0, 428.602, 272, 0, 0, 0, 0, 427.602, 231, 0, 0, 0, 0, 441.602, 194, 0, 0, 0, 0, 490.602, 177, 0, 0, 0, 0, 564.602, 164, 0, 0, 0, 0, 623.602, 152, 0, 0, 0, 0, 716.602, 151, 0, 0, 0, 0, 794.602, 150, 0, 0, 0, 0, 859.602, 151, 0, 0, 0, 0, 900.602, 157, 0, 0, 0, 0, 923.603, 165, 0, 0, 0, 0, 969.603, 187, 0, 0, 0, 0, 1019.6, 196, 0, 0, 0, 0, 1056.6, 169, 0, 0, 0, 0, 1026.6, 131 )
 }
+
+[sub_resource type="TileSet" id=4]
+0/name = "5.jpg 0"
+0/texture = ExtResource( 11 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 415, 315, 120, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
 
 [node name="Main" type="Node2D"]
 pause_mode = 2
@@ -102,6 +115,7 @@ margin_left = 535.89
 margin_top = 301.012
 margin_right = 535.89
 margin_bottom = 301.012
+mouse_filter = 2
 
 [node name="path" type="Path2D" parent="."]
 position = Vector2( -6.00006, 3 )
@@ -115,3 +129,7 @@ rotation = -3.11011
 [node name="Guard" parent="path/follow" instance=ExtResource( 10 )]
 position = Vector2( 0, 0 )
 scale = Vector2( 0.5, 0.5 )
+
+[node name="TileMap2" type="TileMap" parent="."]
+tile_set = SubResource( 4 )
+format = 1

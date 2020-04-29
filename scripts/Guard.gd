@@ -11,6 +11,7 @@ var hit_pos
 var can_shoot = true
 var frame = 0.0
 var direction = 1
+var alerted = false
 
 func _ready():
 	$Sprite.self_modulate = Color(0.2, 0, 0)
@@ -49,9 +50,7 @@ func aim():
 		var result = space_state.intersect_ray(position,
 				pos, [self], collision_mask)
 		if result:
-			print('aqui')
 			hit_pos.append(result.position)
-			print("Colider" + result.collider.name)
 			#if result.collider.name == "unit":
 			if result.collider.is_in_group("units"):
 				$Sprite.self_modulate.r = 1.0
@@ -89,3 +88,7 @@ func _on_Visibility_body_exited(body):
 
 func _on_ShootTimer_timeout():
 	can_shoot = true
+
+func alert(pos):
+	alerted = true
+	look_at(pos)

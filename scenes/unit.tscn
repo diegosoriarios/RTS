@@ -19,6 +19,8 @@ font_data = ExtResource( 6 )
 ]]
 input_pickable = true
 script = ExtResource( 3 )
+detect_radius = 250
+fire_rate = 0.2
 
 [node name="box" type="Sprite" parent="."]
 visible = false
@@ -59,4 +61,12 @@ stretch_margin_right = 10
 stretch_margin_bottom = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Visibility" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Visibility"]
+position = Vector2( -13.0815, -2.12132 )
+polygon = PoolVector2Array( 20, 10, 190, 90, 210, 68, 227, 48, 240, 23, 245, 0, 240, -23, 227, -48, 210, -68, 190, -90, 20, -5 )
 [connection signal="input_event" from="." to="." method="_on_unit_input_event"]
+[connection signal="body_entered" from="Visibility" to="." method="_on_Visibility_body_entered"]
+[connection signal="body_exited" from="Visibility" to="." method="_on_Visibility_body_exited"]
