@@ -6,6 +6,16 @@ var units = []
 
 onready var button = preload("res://scenes/button.tscn")
 var buttons = [] # strings 
+var view = load("res://assets/Cursor/eye.png")
+var gun = load("res://assets/Cursor/focus.png")
+var action = load("res://assets/Cursor/stop.png")
+var knife = load("res://assets/Cursor/knife.png")
+var cursor = load("res://assets/Cursor/cursor.png")
+
+var current_action
+
+onready var last_camera = $Camera2D
+var inventory_is_open = false
 
 func select_unit(unit):
 	if not selected_units.has(unit):
@@ -24,6 +34,7 @@ func deselect_all():
 func set_camera():
 	if selected_units.size() > 0:
 		selected_units[0].get_node("Camera2D").make_current()
+		last_camera = selected_units[0].get_node("Camera2D")
 
 func create_buttons():
 	delete_buttons()
@@ -79,5 +90,28 @@ func _ready():
 	randomize()
 	units = get_tree().get_nodes_in_group("units")
 
-func _process(_delta):
-	pass
+func _process(delta):
+	
+	if selected_units.size() == 0:
+		$Camera2D.current = true
+	elif selected_units.size() == 1:
+		$Camera2D.position = selected_units[0].find_node("Camera2D").global_position
+	
+	if Input.is_action_just_pressed("inventory"):
+		$Inventory.visible = !$Inventory.visible
+		if $Inventory.visible:
+			$Camera2D.current = true
+			$UI/Base.visible = false
+		else:
+			last_camera.current = true
+			$UI/Base.visible = true
+	if selected_units.size() > 0:
+		if Input.is_action_just_pressed("gun"): current_action = gun
+		elif Input.is_action_just_pressed("view"): current_action = view
+		elif Input.is_action_just_pressed("action"): current_action = action
+		elif Input.is_action_just_pressed("knife"): current_action = knife
+		
+		elif Input.is_mouse_button_pressed(BUTTON_RIGHT): current_action = cursor
+		
+		Input.set_custom_mouse_cursor(current_action)
+	

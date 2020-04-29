@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://tiles.tres" type="TileSet" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://icon.png" type="Texture" id=5]
 [ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=7]
+[ext_resource path="res://scenes/Inventory/Inventory.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/path.gd" type="Script" id=9]
+[ext_resource path="res://scenes/Guard.tscn" type="PackedScene" id=10]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 cull_mode = 1
@@ -17,7 +20,14 @@ vertices = PoolVector2Array( 509.6, 578.2, 61.6001, 574.2, 69.6001, 450.2, 189.6
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8, 9, 10 ), PoolIntArray( 11, 12, 13, 14 ), PoolIntArray( 15, 11, 14, 16 ), PoolIntArray( 17, 15, 16, 18 ), PoolIntArray( 18, 16, 19, 20, 21 ), PoolIntArray( 4, 22, 0 ), PoolIntArray( 5, 4, 3, 23, 24, 6 ), PoolIntArray( 25, 26, 27, 24, 23 ), PoolIntArray( 28, 29, 30, 31 ), PoolIntArray( 10, 9, 28, 31, 21, 20 ) ]
 outlines = [ PoolVector2Array( 69.2312, 68.606, 63.6001, 384.2, 193.6, 386.2, 189.6, 450.2, 69.6001, 450.2, 61.6001, 574.2, 509.6, 578.2, 511.6, 450.2, 383.6, 452.2, 377.6, 390.2, 713.6, 382.2, 709.6, 456.2, 573.6, 454.2, 573.6, 774.2, 509.6, 770.2, 511.6, 648.2, 59.6001, 642.2, 65.6001, 964.2, 1473.6, 964.2, 1477.6, 650.2, 1019.6, 644.2, 1019.6, 580.2, 1469.6, 576.2, 1461.6, 70.2003, 1153.6, 66.2003, 1153.6, 332.2, 1077.6, 320.2, 1091.6, 72.2003, 324.497, 68.606, 317.6, 328.2, 249.6, 324.2, 253.6, 68.2003 ) ]
 
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1026.6, 131, 0, 0, 0, 0, 899.602, 127, 0, 0, 0, 0, 755.602, 127, 0, 0, 0, 0, 600.602, 140, 0, 0, 0, 0, 469.602, 149, 8.00002, -6.00001, -8.00002, 6.00001, 393, 174, 0, 0, 0, 0, 374.601, 260, -23.5, -0.500001, 23.5, 0.500001, 398.5, 296.501, 0, 0, 0, 0, 428.602, 272, 0, 0, 0, 0, 427.602, 231, 0, 0, 0, 0, 441.602, 194, 0, 0, 0, 0, 490.602, 177, 0, 0, 0, 0, 564.602, 164, 0, 0, 0, 0, 623.602, 152, 0, 0, 0, 0, 716.602, 151, 0, 0, 0, 0, 794.602, 150, 0, 0, 0, 0, 859.602, 151, 0, 0, 0, 0, 900.602, 157, 0, 0, 0, 0, 923.603, 165, 0, 0, 0, 0, 969.603, 187, 0, 0, 0, 0, 1019.6, 196, 0, 0, 0, 0, 1056.6, 169, 0, 0, 0, 0, 1026.6, 131 )
+}
+
 [node name="Main" type="Node2D"]
+pause_mode = 2
+z_index = 5
 script = ExtResource( 1 )
 
 [node name="icon" type="Sprite" parent="."]
@@ -73,17 +83,35 @@ occluder = SubResource( 1 )
 
 [node name="UI" parent="." instance=ExtResource( 6 )]
 
-[node name="unit2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 662.319, 159.59 )
-
 [node name="unit" parent="." instance=ExtResource( 3 )]
 position = Vector2( 476, 233.4 )
 
 [node name="nav" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="nav"]
-visible = false
 navpoly = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 513.36, 305.471 )
+current = true
 script = ExtResource( 7 )
+
+[node name="Inventory" parent="." instance=ExtResource( 8 )]
+visible = false
+margin_left = 535.89
+margin_top = 301.012
+margin_right = 535.89
+margin_bottom = 301.012
+
+[node name="path" type="Path2D" parent="."]
+position = Vector2( -6.00006, 3 )
+curve = SubResource( 3 )
+script = ExtResource( 9 )
+
+[node name="follow" type="PathFollow2D" parent="path"]
+position = Vector2( 1026.6, 131 )
+rotation = -3.11011
+
+[node name="Guard" parent="path/follow" instance=ExtResource( 10 )]
+position = Vector2( 0, 0 )
+scale = Vector2( 0.5, 0.5 )
